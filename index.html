@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>unplug. — Take control of your electricity bill</title>
+  <meta name="description" content="unplug. shows which appliances are raising your bill and manages your energy from day one. Join free or go Premium for 65 kr/month." />
+  <meta name="theme-color" content="#122019" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23d9f273'/%3E%3Cpath d='M18.5 5 9 18h5l-1.5 9L23 14h-5l.5-9z' fill='%23122019'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- Unplugging intro -->
+  <div class="intro" id="intro" aria-hidden="true">
+    <div class="intro-inner">
+      <div class="intro-scene-wrap">
+        <svg class="intro-scene" viewBox="0 0 240 210" fill="none">
+          <g class="intro-socket">
+            <rect x="98" y="14" width="56" height="76" rx="12" fill="#1b2f24" stroke="#2b4437" stroke-width="2"/>
+            <line x1="118" y1="34" x2="118" y2="54" stroke="#d9f273" stroke-width="6" stroke-linecap="round"/>
+            <line x1="134" y1="34" x2="134" y2="54" stroke="#d9f273" stroke-width="6" stroke-linecap="round"/>
+            <circle cx="126" cy="80" r="2" fill="#2b4437"/>
+          </g>
+          <g class="intro-spark">
+            <path d="M126 42 v22 M115 53 h22" stroke="#d9f273" stroke-width="4" stroke-linecap="round"/>
+          </g>
+          <g class="intro-plug">
+            <rect x="113" y="56" width="6" height="32" rx="2" fill="#efe9db"/>
+            <rect x="133" y="56" width="6" height="32" rx="2" fill="#efe9db"/>
+            <rect x="104" y="88" width="44" height="36" rx="8" fill="#f4705a" stroke="#e65a43" stroke-width="2"/>
+            <rect x="114" y="99" width="24" height="7" rx="3.5" fill="#fff" opacity="0.85"/>
+            <path d="M126 124 C126 152 142 154 150 182" stroke="#d9f273" stroke-width="5" stroke-linecap="round"/>
+          </g>
+        </svg>
+      </div>
+      <div class="intro-brand">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" width="30" height="30"><rect width="32" height="32" rx="9" fill="#d9f273"/><path d="M18.6 5 9.2 18h4.9L12.6 27 22.8 14h-4.9l.7-9z" fill="#122019"/></svg>
+        </span>
+        <span class="intro-word">unplug<span class="brand-dot">.</span></span>
+      </div>
+      <p class="intro-tag">less bill. more life.</p>
+      <div class="intro-progress"><span></span></div>
+    </div>
+  </div>
+
+  <div class="scroll-progress" aria-hidden="true"><span id="scroll-progress-bar"></span></div>
+
+  <div id="app">
+    <!-- ============ LANDING (public) ============ -->
+    <div id="landing">
+      <header class="site-header">
+        <div class="container header-inner">
+          <a class="brand" href="#top" aria-label="unplug — home">
+            <span class="brand-mark" aria-hidden="true">
+              <svg viewBox="0 0 32 32" width="30" height="30"><rect width="32" height="32" rx="9" fill="#d9f273"/><path d="M18.6 5 9.2 18h4.9L12.6 27 22.8 14h-4.9l.7-9z" fill="#122019"/></svg>
+            </span>
+            <span class="brand-name">unplug<span class="brand-dot">.</span></span>
+          </a>
+          <nav class="main-nav" aria-label="Primary">
+            <a href="#how">How it works</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#proof">Proof</a>
+            <a href="#faq">FAQ</a>
+          </nav>
+          <button class="btn btn-lime header-cta js-join" type="button" data-plan="standard">Join free</button>
+        </div>
+      </header>
+
+      <main id="main">
+        <section class="hero">
+          <div class="hero-glow" aria-hidden="true"></div>
+          <div class="container hero-grid">
+            <div class="hero-copy">
+              <p class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>The electricity coach for real homes</p>
+              <h1>Your bill has a <span class="accent">villain</span>. We'll find it — and fix it.</h1>
+              <p class="lede">Join free to see which appliances are eating the most electricity each month. Go Premium and we'll start managing your energy from day one.</p>
+              <div class="hero-actions">
+                <button class="btn btn-lime js-join" type="button" data-plan="standard">Start free</button>
+                <button class="btn btn-ghost js-join" type="button" data-plan="premium">Go Premium — 65 kr/mo</button>
+              </div>
+              <ul class="hero-trust">
+                <li>No credit card to start</li>
+                <li>Works on your phone</li>
+                <li>Data stays on your device</li>
+              </ul>
+            </div>
+
+            <div class="hero-card" aria-hidden="false">
+              <div class="hero-card-head">
+                <span class="live-tag"><span class="live-dot" aria-hidden="true"></span>Live estimate</span>
+                <span class="hero-month">This month</span>
+              </div>
+              <p class="hero-card-label">Your estimated power bill</p>
+              <p class="hero-total" id="hero-total">758 kr</p>
+              <p class="hero-sub" id="hero-items">for a typical flat</p>
+              <div class="hero-bar" id="hero-bar" role="img" aria-label="Share of bill by appliance"></div>
+              <div class="hero-top">
+                <span class="hero-top-icon" id="hero-top-icon" aria-hidden="true"></span>
+                <div>
+                  <p class="hero-top-label">Biggest drain</p>
+                  <p class="hero-top-name" id="hero-top-name">Electric heater</p>
+                </div>
+                <strong class="hero-top-share" id="hero-top-share">45%</strong>
+              </div>
+              <div class="hero-divider" aria-hidden="true"></div>
+              <div class="hero-save-row">
+                <span>If you do the easy fixes</span>
+                <strong id="hero-save">save up to 256 kr/mo</strong>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="ticker" aria-hidden="true">
+          <div class="ticker-track">
+            <span>The heater is the usual suspect.</span><i>✦</i>
+            <span>Kettles are tiny but mighty.</span><i>✦</i>
+            <span>20°C is your wallet's friend.</span><i>✦</i>
+            <span>Standby power is a silent thief.</span><i>✦</i>
+            <span>Premium pays for itself.</span><i>✦</i>
+            <span>The heater is the usual suspect.</span><i>✦</i>
+            <span>Kettles are tiny but mighty.</span><i>✦</i>
+            <span>20°C is your wallet's friend.</span><i>✦</i>
+            <span>Standby power is a silent thief.</span><i>✦</i>
+            <span>Premium pays for itself.</span><i>✦</i>
+          </div>
+        </div>
+
+        <!-- How it works -->
+        <section class="section" id="how">
+          <div class="container">
+            <div class="section-head reveal">
+              <p class="step-num">How it works</p>
+              <h2>Three steps to a cheaper bill.</h2>
+            </div>
+            <div class="steps">
+              <div class="step reveal" data-delay="0">
+                <span class="step-num-big">01</span>
+                <h3>Join &amp; add your appliances</h3>
+                <p>Tell us what you plug in — or start with our typical flat. It takes about three minutes.</p>
+              </div>
+              <div class="step reveal" data-delay="100">
+                <span class="step-num-big">02</span>
+                <h3>See the real culprits</h3>
+                <p>Your dashboard ranks every appliance by monthly cost, so you instantly see what's raising the bill.</p>
+              </div>
+              <div class="step reveal" data-delay="200">
+                <span class="step-num-big">03</span>
+                <h3>Start saving</h3>
+                <p>Premium gives you a personal plan and tracks every krona you save, from day one.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Pricing -->
+        <section class="section section-pricing" id="pricing">
+          <div class="container">
+            <div class="section-head section-head-center reveal">
+              <p class="step-num">Two levels, your call</p>
+              <h2>Pick how involved you want us.</h2>
+            </div>
+
+            <div class="pricing-grid">
+              <article class="plan-card reveal" data-delay="0">
+                <div class="plan-head">
+                  <h3>Standard</h3>
+                  <p class="plan-price"><strong>0 kr</strong> / month</p>
+                  <p class="plan-tagline">See what's using your power.</p>
+                </div>
+                <ul class="plan-list">
+                  <li>Monthly appliance breakdown</li>
+                  <li>See which devices use the most</li>
+                  <li>Typical wattage library</li>
+                  <li>Five rules of a cheap bill</li>
+                </ul>
+                <button class="btn btn-outline js-join" type="button" data-plan="standard">Start free</button>
+              </article>
+
+              <article class="plan-card plan-premium reveal" data-delay="140">
+                <span class="plan-flag">Most popular</span>
+                <div class="plan-head">
+                  <h3>Premium</h3>
+                  <p class="plan-price"><strong>65 kr</strong> / month</p>
+                  <p class="plan-tagline">We manage your energy from day one.</p>
+                </div>
+                <ul class="plan-list">
+                  <li>Everything in Standard</li>
+                  <li>Personal energy plan from day one</li>
+                  <li>Action-by-action savings tracking</li>
+                  <li>Monthly savings history &amp; projections</li>
+                  <li>Prioritised no-cost and upgrade tips</li>
+                </ul>
+                <button class="btn btn-lime js-join" type="button" data-plan="premium">Start Premium</button>
+                <p class="plan-note">Cancel anytime. Demo — no real charge.</p>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <!-- Proof -->
+        <section class="section section-proof" id="proof">
+          <div class="container">
+            <div class="section-head section-head-light reveal">
+              <p class="step-num">Proof</p>
+              <h2>Small app. Real kronor saved.</h2>
+            </div>
+            <div class="proof-grid">
+              <div class="proof-big reveal">
+                <p class="proof-num" data-count="12000" data-suffix=" kr">12 000 kr</p>
+                <p class="proof-label">saved by the average member in their first year</p>
+              </div>
+              <div class="proof-mini reveal" data-delay="120">
+                <div class="proof-stat"><strong data-count="4.2" data-decimals="1" data-suffix=" M kr">4,2 M kr</strong><span>saved together</span></div>
+                <div class="proof-stat"><strong data-count="18400">18 400</strong><span>members</span></div>
+                <div class="proof-stat"><strong data-count="92" data-suffix="%">92%</strong><span>stay past month one</span></div>
+              </div>
+            </div>
+            <blockquote class="proof-quote reveal">“I thought my fridge was the problem. It was the heater. unplug. showed me in one screen and paid for Premium ten times over.” <cite>— Maja, shared flat in Göteborg</cite></blockquote>
+          </div>
+        </section>
+
+        <!-- FAQ -->
+        <section class="section" id="faq">
+          <div class="container faq-grid">
+            <div class="section-head faq-head reveal">
+              <p class="step-num">The fine print</p>
+              <h2>Questions people ask.</h2>
+            </div>
+            <div class="faq-list">
+              <details class="faq-item reveal" open>
+                <summary>How accurate are the numbers?</summary>
+                <p>They're solid estimates. We multiply each appliance's wattage by how long you run it, then by your tariff. Your real bill also depends on the weather, the machine's age, and your tariff plan — so treat it as a reliable guide.</p>
+              </details>
+              <details class="faq-item reveal" data-delay="60">
+                <summary>What does Standard actually do?</summary>
+                <p>Standard shows you, month by month, which appliances are using the most electricity. It's the diagnosis. Premium is the treatment — a personal plan and savings tracking that starts working on day one.</p>
+              </details>
+              <details class="faq-item reveal" data-delay="120">
+                <summary>What tariff should I enter?</summary>
+                <p>Look at your bill for the price per kWh (usually 1–3 kr in Sweden including taxes and grid fees). We start at 2,50 kr/kWh, and you can change it anytime.</p>
+              </details>
+              <details class="faq-item reveal" data-delay="180">
+                <summary>Is this a real subscription?</summary>
+                <p>This is a demo. Joining and upgrading are simulated in your browser and nothing is charged. A production version would plug into a real payment provider.</p>
+              </details>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <div class="container footer-inner">
+          <div class="footer-brand">
+            <a class="brand" href="#top">
+              <span class="brand-mark" aria-hidden="true">
+                <svg viewBox="0 0 32 32" width="28" height="28"><rect width="32" height="32" rx="9" fill="#d9f273"/><path d="M18.6 5 9.2 18h4.9L12.6 27 22.8 14h-4.9l.7-9z" fill="#122019"/></svg>
+              </span>
+              <span class="brand-name">unplug<span class="brand-dot">.</span></span>
+            </a>
+            <p>Less bill. More life. Made for homes, flats and prepaid-meter anxiety.</p>
+          </div>
+          <div class="footer-links">
+            <a href="#how">How it works</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#proof">Proof</a>
+            <a href="#faq">FAQ</a>
+          </div>
+          <p class="footer-disclaimer">Estimates only. Actual bills depend on your tariff and habits. Demo product — no real payments.</p>
+        </div>
+      </footer>
+    </div>
+
+    <!-- ============ APP SHELL (authenticated) ============ -->
+    <div id="app-shell" hidden>
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-head">
+          <a class="brand" href="#" id="side-brand">
+            <span class="brand-mark" aria-hidden="true">
+              <svg viewBox="0 0 32 32" width="28" height="28"><rect width="32" height="32" rx="9" fill="#d9f273"/><path d="M18.6 5 9.2 18h4.9L12.6 27 22.8 14h-4.9l.7-9z" fill="#122019"/></svg>
+            </span>
+            <span class="brand-name">unplug<span class="brand-dot">.</span></span>
+          </a>
+          <button class="sidebar-close" id="sidebar-close" type="button" aria-label="Close menu">✕</button>
+        </div>
+
+        <nav class="side-nav" aria-label="App navigation">
+          <button class="side-link is-active" type="button" data-view="dashboard">
+            <span class="side-ico" aria-hidden="true">▦</span> Dashboard
+          </button>
+          <button class="side-link" type="button" data-view="savings">
+            <span class="side-ico" aria-hidden="true">📈</span> My savings
+          </button>
+          <button class="side-link" type="button" data-view="community">
+            <span class="side-ico" aria-hidden="true">💚</span> Community
+          </button>
+        </nav>
+
+        <div class="sidebar-tier" id="sidebar-tier"></div>
+
+        <div class="sidebar-user">
+          <span class="user-avatar" id="user-avatar">A</span>
+          <div class="user-meta">
+            <strong id="user-name">You</strong>
+            <span id="user-tier">Standard</span>
+          </div>
+          <button class="sign-out" id="sign-out" type="button" aria-label="Sign out">↪</button>
+        </div>
+      </aside>
+      <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+
+      <div class="app-main">
+        <header class="app-topbar">
+          <button class="menu-btn" id="menu-btn" type="button" aria-label="Open menu">☰</button>
+          <h1 class="topbar-title" id="topbar-title">Dashboard</h1>
+          <span class="tier-badge" id="topbar-tier">Standard</span>
+        </header>
+
+        <main class="app-content" id="app-content">
+          <!-- Dashboard -->
+          <section class="view" id="view-dashboard">
+            <div class="dash-greet">
+              <h2 id="dash-greeting">Hej 👋</h2>
+              <p id="dash-sub">Here's what your electricity is doing this month.</p>
+            </div>
+
+            <div class="upgrade-banner" id="upgrade-banner" hidden>
+              <div>
+                <strong>You're on Standard.</strong>
+                <span>Unlock your personal energy plan and start managing from day one.</span>
+              </div>
+              <button class="btn btn-lime" type="button" data-upgrade>Upgrade — 65 kr/mo</button>
+            </div>
+
+            <div class="kpi-row">
+              <div class="kpi">
+                <span class="kpi-label">This month's estimate</span>
+                <strong class="kpi-num" id="kpi-bill">758 kr</strong>
+                <span class="kpi-sub" id="kpi-bill-sub">across your appliances</span>
+              </div>
+              <div class="kpi">
+                <span class="kpi-label">Biggest drain</span>
+                <strong class="kpi-num kpi-num-coral" id="kpi-drain">—</strong>
+                <span class="kpi-sub" id="kpi-drain-sub">—</span>
+              </div>
+              <div class="kpi">
+                <span class="kpi-label" id="kpi-save-label">Monthly saving</span>
+                <strong class="kpi-num kpi-num-green" id="kpi-save">0 kr</strong>
+                <span class="kpi-sub" id="kpi-save-sub">—</span>
+              </div>
+            </div>
+
+            <div class="dash-grid">
+              <div class="card builder-card">
+                <div class="builder-head">
+                  <h3>Your appliances</h3>
+                  <span class="count-badge" id="appliance-count">8 items</span>
+                </div>
+                <div class="appliance-list" id="appliance-list" aria-live="polite"></div>
+                <div class="builder-empty" id="builder-empty" hidden>
+                  <div class="empty-icon" aria-hidden="true">🔌</div>
+                  <p>Nothing here yet. Add your appliances or load the typical flat.</p>
+                </div>
+                <div class="builder-footer">
+                  <button class="btn btn-outline" id="open-catalog" type="button"><span aria-hidden="true">＋</span> Add appliance</button>
+                  <button class="btn btn-text" id="load-sample" type="button">Load typical flat</button>
+                  <button class="btn btn-text btn-danger" id="clear-all" type="button">Clear all</button>
+                </div>
+                <p class="hint-note">Don't know a wattage? Check the sticker on the plug or the manual.</p>
+              </div>
+
+              <aside class="summary-col">
+                <div class="card summary-card">
+                  <div class="summary-head">
+                    <h3>Where your money goes</h3>
+                    <span class="summary-kicker">estimated</span>
+                  </div>
+                  <div class="rate-row">
+                    <label for="rate-input">Tariff</label>
+                    <div class="rate-field">
+                      <input type="number" id="rate-input" inputmode="decimal" min="0.1" step="0.1" value="2.5" aria-label="Electricity tariff in kronor per kilowatt hour" />
+                      <span class="rate-unit">kr/kWh</span>
+                    </div>
+                  </div>
+                  <p class="rate-help">Check your bill — usually 1–3 kr/kWh in Sweden.</p>
+
+                  <p class="bill-total" id="bill-total">758 kr</p>
+                  <p class="bill-sub" id="bill-sub">across your appliances</p>
+
+                  <div class="donut-wrap">
+                    <div class="donut" id="donut" role="img" aria-label="Bill breakdown by appliance">
+                      <div class="donut-hole">
+                        <span id="donut-total">758 kr</span>
+                        <small>this month</small>
+                      </div>
+                    </div>
+                    <ul class="legend" id="donut-legend"></ul>
+                  </div>
+
+                  <div class="summary-stats">
+                    <div class="stat">
+                      <span class="stat-label">Yearly</span>
+                      <strong id="bill-annual">9 096 kr</strong>
+                    </div>
+                    <div class="stat">
+                      <span class="stat-label">Carbon</span>
+                      <strong id="bill-co2">14 kg CO₂/mo</strong>
+                    </div>
+                  </div>
+                </div>
+              </aside>
+            </div>
+
+            <!-- Energy plan -->
+            <div class="plan-section" id="plan-section">
+              <div class="plan-heading">
+                <h2 id="plan-heading">Your energy plan</h2>
+                <p id="plan-heading-sub">Ranked by impact — tick them off as you go.</p>
+              </div>
+
+              <div class="plan-stats" id="plan-stats">
+                <div class="plan-stat">
+                  <span class="plan-stat-num" id="plan-count">9</span>
+                  <span class="plan-stat-label">ways to save</span>
+                </div>
+                <div class="plan-stat">
+                  <span class="plan-stat-num" id="plan-potential">256 kr</span>
+                  <span class="plan-stat-label">possible / month</span>
+                </div>
+                <div class="plan-stat">
+                  <span class="plan-stat-num" id="plan-yearly">3 072 kr</span>
+                  <span class="plan-stat-label">possible / year</span>
+                </div>
+              </div>
+
+              <div class="plan-filters" id="plan-filters" role="group" aria-label="Filter saving tips">
+                <button class="chip is-active" data-filter="all" type="button">All</button>
+                <button class="chip" data-filter="habit" type="button">Free wins</button>
+                <button class="chip" data-filter="tweak" type="button">Quick fixes</button>
+                <button class="chip" data-filter="upgrade" type="button">Worth investing</button>
+              </div>
+
+              <div class="tips-list" id="plan-list" aria-live="polite"></div>
+              <div class="plan-empty" id="plan-empty" hidden>
+                <div class="empty-icon" aria-hidden="true">🎉</div>
+                <h3>You're basically energy-efficient.</h3>
+                <p>Add appliances to get a tailored plan.</p>
+              </div>
+              <button class="btn btn-outline show-more" id="show-more" type="button" hidden>Show all tips</button>
+
+              <div class="plan-locked" id="plan-locked" hidden>
+                <div class="lock-emoji" aria-hidden="true">🔒</div>
+                <h3>Your energy plan is a Premium feature.</h3>
+                <p>Premium manages your energy from day one — a personalised plan, savings tracking, and projections.</p>
+                <button class="btn btn-lime" type="button" data-upgrade>Unlock with Premium — 65 kr/mo</button>
+              </div>
+            </div>
+          </section>
+
+          <!-- Savings -->
+          <section class="view" id="view-savings" hidden>
+            <div class="dash-greet">
+              <h2>My savings</h2>
+              <p>Every krona you've kept in your pocket, month by month.</p>
+            </div>
+
+            <div class="sav-upgrade" id="sav-upgrade" hidden>
+              <strong>Savings tracking is a Premium feature.</strong>
+              <span>Upgrade to see your month-by-month savings history and projections.</span>
+              <button class="btn btn-lime" type="button" data-upgrade>Upgrade — 65 kr/mo</button>
+            </div>
+
+            <div class="kpi-row">
+              <div class="kpi">
+                <span class="kpi-label">Saved this month</span>
+                <strong class="kpi-num kpi-num-green" id="sav-month">0 kr</strong>
+                <span class="kpi-sub">from fixes you've applied</span>
+              </div>
+              <div class="kpi">
+                <span class="kpi-label">Saved so far</span>
+                <strong class="kpi-num" id="sav-total">0 kr</strong>
+                <span class="kpi-sub">last 12 months (est.)</span>
+              </div>
+              <div class="kpi">
+                <span class="kpi-label">Next 12 months</span>
+                <strong class="kpi-num" id="sav-year">0 kr</strong>
+                <span class="kpi-sub">projected if you keep going</span>
+              </div>
+            </div>
+
+            <div class="card chart-card" id="chart-card">
+              <div class="chart-head">
+                <h3>Monthly savings</h3>
+                <span class="chart-note" id="sav-note">Estimate — demo data</span>
+              </div>
+              <div class="chart" id="savings-chart" role="img" aria-label="Bar chart of monthly savings"></div>
+              <ul class="savings-list" id="savings-list"></ul>
+            </div>
+          </section>
+
+          <!-- Community -->
+          <section class="view" id="view-community" hidden>
+            <div class="dash-greet">
+              <h2>Community</h2>
+              <p>You're not the only one fighting the heater.</p>
+            </div>
+
+            <div class="community-hero reveal">
+              <p class="proof-num" data-count="12000" data-suffix=" kr">12 000 kr</p>
+              <p class="proof-label">saved by the average member in their first year using unplug.</p>
+              <div class="community-stats">
+                <div class="proof-stat"><strong data-count="4.2" data-decimals="1" data-suffix=" M kr">4,2 M kr</strong><span>saved together</span></div>
+                <div class="proof-stat"><strong data-count="18400">18 400</strong><span>members</span></div>
+                <div class="proof-stat"><strong data-count="92" data-suffix="%">92%</strong><span>still here after month one</span></div>
+              </div>
+            </div>
+
+            <div class="testimonials">
+              <blockquote class="testimonial reveal" data-delay="0">
+                <p>“The heater was 45% of my bill. One thermostat change and I saved 300 kr that month.”</p>
+                <cite>— Elias, student flat in Uppsala</cite>
+              </blockquote>
+              <blockquote class="testimonial reveal" data-delay="90">
+                <p>“I only wanted to see what my fridge was using. Now I've ticked off eight fixes and my bill is visibly smaller.”</p>
+                <cite>— Sara, family home in Malmö</cite>
+              </blockquote>
+              <blockquote class="testimonial reveal" data-delay="180">
+                <p>“Premium paid for itself in the first week. The savings page is weirdly addictive.”</p>
+                <cite>— Maja, shared flat in Göteborg</cite>
+              </blockquote>
+            </div>
+
+            <div class="comm-cta" id="comm-cta">
+              <p id="comm-cta-text">Start saving like they did.</p>
+              <button class="btn btn-lime" type="button" id="comm-cta-btn" data-upgrade>Upgrade — 65 kr/mo</button>
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <!-- ============ JOIN DIALOG ============ -->
+    <dialog class="join-dialog" id="join-dialog" aria-labelledby="join-title">
+      <div class="join-inner">
+        <button class="dialog-close" id="join-close" type="button" aria-label="Close">✕</button>
+
+        <!-- Step 1: name -->
+        <div class="join-step" data-step="1">
+          <h3 id="join-title">Let's get you set up</h3>
+          <p class="join-sub">First, what should we call you?</p>
+          <label class="join-label" for="join-name">Your name</label>
+          <input type="text" id="join-name" class="join-input" placeholder="e.g. Alex" autocomplete="given-name" />
+          <p class="join-error" id="join-name-error" hidden>Please enter your name.</p>
+          <button class="btn btn-dark join-wide" id="join-next" type="button">Continue</button>
+        </div>
+
+        <!-- Step 2: plan + payment -->
+        <div class="join-step" data-step="2" hidden>
+          <h3>Choose your plan</h3>
+          <p class="join-sub" id="join-plan-sub">Pick how involved you want us.</p>
+
+          <div class="join-plans">
+            <label class="join-plan" id="join-plan-standard">
+              <input type="radio" name="join-plan" value="standard" checked />
+              <span class="join-plan-radio"></span>
+              <span class="join-plan-body">
+                <strong>Standard</strong>
+                <em>0 kr / month</em>
+                <small>See which appliances use the most each month.</small>
+              </span>
+            </label>
+            <label class="join-plan is-premium" id="join-plan-premium">
+              <input type="radio" name="join-plan" value="premium" />
+              <span class="join-plan-radio"></span>
+              <span class="join-plan-body">
+                <strong>Premium</strong>
+                <em>65 kr / month</em>
+                <small>We manage your energy from day one.</small>
+              </span>
+            </label>
+          </div>
+
+          <div class="join-payment" id="join-payment" hidden>
+            <p class="join-payment-note">Demo only — nothing will actually be charged.</p>
+            <label class="join-label" for="pay-card">Card number</label>
+            <input type="text" id="pay-card" class="join-input" inputmode="numeric" placeholder="4242 4242 4242 4242" />
+            <div class="pay-row">
+              <div>
+                <label class="join-label" for="pay-exp">Expiry</label>
+                <input type="text" id="pay-exp" class="join-input" placeholder="12/28" />
+              </div>
+              <div>
+                <label class="join-label" for="pay-cvc">CVC</label>
+                <input type="text" id="pay-cvc" class="join-input" inputmode="numeric" placeholder="123" />
+              </div>
+            </div>
+            <p class="join-error" id="pay-error" hidden>Please fill in the demo card fields.</p>
+          </div>
+
+          <button class="btn btn-dark join-wide" id="join-start" type="button">Start my account</button>
+          <button class="btn btn-text join-back" id="join-back" type="button">← Back</button>
+        </div>
+
+        <!-- Step 3: success -->
+        <div class="join-step join-success" data-step="3" hidden>
+          <div class="success-mark" aria-hidden="true">✓</div>
+          <h3 id="join-success-title">Welcome aboard!</h3>
+          <p id="join-success-sub">Setting up your dashboard…</p>
+        </div>
+      </div>
+    </dialog>
+
+    <!-- ============ CATALOG DIALOG ============ -->
+    <dialog class="catalog-dialog" id="catalog-dialog" aria-labelledby="catalog-title">
+      <div class="catalog-inner">
+        <div class="catalog-head">
+          <h3 id="catalog-title">Add an appliance</h3>
+          <button class="dialog-close" id="catalog-close" type="button" aria-label="Close">✕</button>
+        </div>
+        <input type="search" id="catalog-search" class="catalog-search" placeholder="Search — heater, fridge, kettle…" autocomplete="off" />
+        <div class="catalog-chips" id="catalog-chips" role="group" aria-label="Filter appliances by category"></div>
+        <div class="catalog-list" id="catalog-list"></div>
+        <div class="catalog-foot">
+          <button class="btn btn-dark" id="catalog-done" type="button">Done</button>
+        </div>
+      </div>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </div>
+
+  <noscript>
+    <div class="noscript-banner">This checkup needs JavaScript to calculate your bill. Please enable it — it runs entirely in your browser.</div>
+  </noscript>
+
+  <script src="app.js"></script>
+  <script src="fx.js"></script>
+</body>
+</html>
